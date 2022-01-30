@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 class Tree
@@ -8,7 +9,7 @@ public:
 	int value;
 	Tree * left;
 	Tree * right;
-	Tree(int value)
+	void init(int value)
 	{
 		this->value = value;
 		this->left = this->right = NULL;
@@ -17,6 +18,7 @@ public:
 
 int t, n;
 vector<int> preOrder, inOrder;
+Tree nodes[1000];
 
 void GetInput1()
 {
@@ -39,9 +41,6 @@ void GetTraversalInput(vector<int>& vec)
 
 void GetInput2()
 {
-	preOrder.clear();
-	inOrder.clear();
-
 	cin >> n;
 	GetTraversalInput(preOrder);
 	GetTraversalInput(inOrder);
@@ -56,22 +55,18 @@ void PostOrderTraversal(Tree * tree)
 	cout << tree->value << ' ';
 }
 
-Tree * CreateTree(int preOrderIndex, int size)
+Tree * CreateTree(const int begin, const int end, int leftChild)
 {
-	cout << "CreateTree(" << preOrderIndex << ", " << size << ')' << endl;
+	if (begin == end)
+		return nullptr;
 
-	if (size == 0)
-		return NULL;
+	Tree * root = &nodes[begin];
+	root->init(preOrder[begin]);
 
-	Tree * root = new Tree(preOrder[preOrderIndex]);
-	preOrder.erase(preOrder.begin() + preOrderIndex);
+	const int offset = (find(inOrder.begin(), inOrder.end(), root->value) - inOrder.begin()) - begin + leftChild;
 
-	if (size > 1)
-	{
-		int inOrderIndex = distance(inOrder.begin(), find(inOrder.begin(), inOrder.end(), root->value));
-		root->left = CreateTree(preOrderIndex, inOrderIndex - preOrderIndex + 1);
-		root->right = CreateTree(inOrderIndex + 1, size - 1 - (inOrderIndex - preOrderIndex + 1));
-	}
+	root->left = CreateTree(begin + 1, begin + offset + 1, leftChild + 1);
+	root->right = CreateTree(begin + offset + 1, end, leftChild);
 
 	return root;
 }
@@ -82,7 +77,7 @@ int main(void)
 	for (int i = 0; i < t; i++)
 	{
 		GetInput2();
-		Tree * tree = CreateTree(0, preOrder.size());
+		Tree * tree = CreateTree(0, preOrder.size(), 0);
 		PostOrderTraversal(tree);
 		cout << '\n';
 	}

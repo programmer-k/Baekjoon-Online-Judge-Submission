@@ -3,31 +3,31 @@
 #include <utility>
 using namespace std;
 
-int n;
-int heights[100000];
+int64_t n;
+int64_t heights[100000];
 
 void GetInput() {
   cin.tie(nullptr);
   ios::sync_with_stdio(false);
 
   cin >> n;
-  for (int i = 0 ; i < n; ++i)
+  for (int64_t i = 0; i < n; ++i)
     cin >> heights[i];
 }
 
 void Solve() {
   int64_t max_area = 0;
-  stack<pair<int, int>> s;
+  stack<pair<int64_t, int64_t>> s;
 
-  for (int i = 0; i < n; ++i) {
-    int height = heights[i];
+  for (int64_t i = 0; i < n; ++i) {
+    int64_t height = heights[i];
 
     while (!s.empty() && s.top().first > height) {
-      int curr_height = s.top().first;
-      int curr_idx = s.top().second;
+      int64_t curr_height = s.top().first;
+      int64_t curr_idx = s.top().second;
       s.pop();
 
-      int64_t area = (int64_t) curr_height * (s.empty() ? curr_idx + 1 : (i - 1 - s.top().second));
+      int64_t area = (int64_t) curr_height * (s.empty() ? i : (i - 1 - s.top().second));
       max_area = max(max_area, area);
     }
 
@@ -35,8 +35,8 @@ void Solve() {
   }
 
   while (!s.empty()) {
-    int curr_height = s.top().first;
-    //int curr_idx = s.top().second;
+    int64_t curr_height = s.top().first;
+    //int64_t curr_idx = s.top().second;
     s.pop();
 
     int64_t area = (int64_t) curr_height * (s.empty() ? n : (n - 1 - s.top().second));

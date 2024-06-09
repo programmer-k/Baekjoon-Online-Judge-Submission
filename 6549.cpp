@@ -27,7 +27,7 @@ void Solve() {
       int curr_idx = s.top().second;
       s.pop();
 
-      int64_t area = (int64_t) curr_height * (s.empty() ? curr_idx + 1 : (i - curr_idx));
+      int64_t area = (int64_t) curr_height * (s.empty() ? curr_idx + 1 : (i - 1 - s.top().second));
       max_area = max(max_area, area);
     }
 
@@ -36,10 +36,10 @@ void Solve() {
 
   while (!s.empty()) {
     int curr_height = s.top().first;
-    int curr_idx = s.top().second;
+    //int curr_idx = s.top().second;
     s.pop();
 
-    int64_t area = (int64_t) curr_height * (s.empty() ? n : (n - curr_idx));
+    int64_t area = (int64_t) curr_height * (s.empty() ? n : (n - 1 - s.top().second));
     max_area = max(max_area, area);
   }
 

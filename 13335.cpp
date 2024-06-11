@@ -27,7 +27,7 @@ void Solve() {
     int truck = arr[i];
 
     bool flag = false;
-    while (curr_weight + truck > l) {
+    while (curr_weight -q.front() + truck > l) {
       curr_weight -= q.front();
       q.pop();
       /*curr_weight -= bridge[0];
@@ -39,21 +39,27 @@ void Solve() {
       q.push(0);
       ++time;
       flag = true;
+      //cout << "push 0 at" << time << endl;
     }
 
     curr_weight += truck;
-    q.pop();
+    //if (!flag) {
+      curr_weight -= q.front();
+      q.pop();
+    //}
     q.push(truck);
     /*for (int j = 0; j < w - 1; ++j) {
       bridge[j] = bridge[j + 1];
     }
     bridge[w - 1] = truck;*/
     //cout << "push truck" << endl;
-    if (!flag)
+    //if (!flag)
       ++time;
+    //cout << "push truck " << truck << "at " << time << endl;
   }
 
   while (curr_weight > 0) {
+    //cout << curr_weight << endl;
     curr_weight -= q.front();
     q.pop();
     /*curr_weight -= bridge[0];
@@ -62,6 +68,7 @@ void Solve() {
     }
     bridge[w - 1] = 0;*/
     q.push(0);
+    //cout << "!" << endl;
     ++time;
   }
 

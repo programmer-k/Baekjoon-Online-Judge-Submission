@@ -1,8 +1,10 @@
 #include <iostream>
 #include <cmath>
+#include <climits>
 using namespace std;
 
 int n;
+int dp[100001];
 
 void GetInput() {
   cin.tie(nullptr);
@@ -12,17 +14,16 @@ void GetInput() {
 }
 
 void Solve() {
-  int cnt = 0;
-  int total = 0;
-  for (int i = n; i > 0; --i) {
-    int square = i * i;
-    while (total + square <= n) {
-      total += square;
-      ++cnt;
+  for (int i = 1; i <= n; ++i) {
+    int minimum = INT_MAX;
+    for (int j = 1; j * j <= i; ++j) {
+      int prev = i - j * j;
+      minimum = min(minimum, dp[prev] + 1);
     }
+    dp[i] = minimum;
   }
 
-  cout << cnt << '\n';
+  cout << dp[n] << '\n';
 }
 
 int main(void) {

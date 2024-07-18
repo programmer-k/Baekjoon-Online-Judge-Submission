@@ -20,3 +20,4 @@ bin-release/
 a.out
 output.txt
 settings.json
+.vscode/** */

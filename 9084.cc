@@ -4,7 +4,7 @@ using namespace std;
 
 int t;
 int n;
-int coins[20];
+int coins[21];
 int m;
 int dp[20][10001];
 
@@ -42,14 +42,30 @@ int CountCoinCombinations(int total, int index) {
   return dp[index][total] = temp1 + temp2;
 }
 
+int dp_table[10001];
+
 void Solve() {
-  cout << CountCoinCombinations(0, 0) << '\n';
+  //cout << CountCoinCombinations(0, 0) << '\n';
+  dp_table[0] = 1;
+
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j <= m; ++j) {
+      if (j - coins[i] >= 0)
+        dp_table[j] += dp_table[j - coins[i]];
+    }
+  }
+
+  //for (int j = 0; j <= m; ++j)
+  //  cout << dp_table[1][j] << ' ';
+
+  cout << dp_table[m] << '\n';
 }
 
 int main(void) {
   GetInput1();
   for (int i = 0; i < t; ++i) {
     memset(dp, -1, sizeof(dp));
+    memset(dp_table, 0, sizeof(dp_table));
     GetInput2();
     Solve();
   }

@@ -43,8 +43,6 @@ void Solve() {
       } else if (picks.top() < reward) {
         picks.pop();
         picks.push(reward);
-        --i;
-        break;
       }
     }
   }

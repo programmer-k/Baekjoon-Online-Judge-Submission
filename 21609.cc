@@ -151,8 +151,7 @@ void Gravity() {
           map[k][j] = map[k - 1][j];
         }
 
-        if (map[k][j] != -1)
-          map[k][j] = -2;
+        map[k][j] = -2;
       }
     }
   }

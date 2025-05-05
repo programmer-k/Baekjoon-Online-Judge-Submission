@@ -35,8 +35,6 @@ void Solve() {
     }
   }
 
-
-
   for (int i = 0; i < q; ++i) {
     int r1 = rects[i].r1;
     int c1 = rects[i].c1;

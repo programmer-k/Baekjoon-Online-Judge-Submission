@@ -1,7 +1,7 @@
 #include <iostream>
-#include <vector>
 #include <queue>
 #include <utility>
+#include <vector>
 using namespace std;
 
 const int kMapSize = 8;
@@ -22,9 +22,9 @@ void MoveWalls(queue<pair<int, int>>& q) {
     for (int j = 0; j < kMapSize; ++j)
       if (map[i][j] == '#')
         map_copy[i + 1][j] = map[i][j];
-  
+
   map = map_copy;
-  q.push({ -1, -1 });
+  q.push({-1, -1});
 }
 
 void MoveCharacter(queue<pair<int, int>>& q, int row, int col) {
@@ -36,22 +36,22 @@ void MoveCharacter(queue<pair<int, int>>& q, int row, int col) {
       int next_row = row + i;
       int next_col = col + j;
 
-      if (next_row < 0 || next_col < 0 || next_row >= kMapSize || next_col >= kMapSize)
+      if (next_row < 0 || next_col < 0 || next_row >= kMapSize ||
+          next_col >= kMapSize)
         continue;
-      
+
       if (map[next_row][next_col] == '#')
         continue;
-      
-      //cout << "push: " << next_row << ", " << next_col << endl;
-      q.push({ next_row, next_col });
+
+      q.push({next_row, next_col});
     }
   }
 }
 
 bool BreathFirstSearch() {
   queue<pair<int, int>> q;
-  q.push({ kMapSize - 1, 0 });
-  q.push({ -1, -1 });
+  q.push({kMapSize - 1, 0});
+  q.push({-1, -1});
 
   while (!q.empty()) {
     pair<int, int> p = q.front();

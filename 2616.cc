@@ -22,7 +22,7 @@ void Solve() {
   int sum = 0;
   for (int i = 1; i < k; ++i)
     sum += arr[i];
-  
+
   for (int i = k; i <= n; ++i) {
     sum += arr[i];
     sum -= arr[i - k];

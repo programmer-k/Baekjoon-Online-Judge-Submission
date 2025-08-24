@@ -1,7 +1,7 @@
-#include <iostream>
-#include <vector>
-#include <tuple>
 #include <algorithm>
+#include <iostream>
+#include <tuple>
+#include <vector>
 using namespace std;
 
 class UnionFind {
@@ -27,6 +27,7 @@ class UnionFind {
     parents[y] = x;
     return true;
   }
+
  private:
   vector<int> parents;
 };
@@ -57,7 +58,7 @@ void GetInput() {
   for (int i = 0; i < m; ++i) {
     int u, v, d;
     cin >> u >> v >> d;
-    edges.push_back({ u, v, d });
+    edges.push_back({u, v, d});
   }
 }
 
@@ -68,12 +69,13 @@ int Kruskal() {
   int total = 0;
   UnionFind union_find(n);
   for (const Edge& edge : edges) {
-    if (schools[edge.u] != schools[edge.v] && union_find.Union(edge.u, edge.v)) {
+    if (schools[edge.u] != schools[edge.v] &&
+        union_find.Union(edge.u, edge.v)) {
       total += edge.d;
       ++count;
     }
   }
-  
+
   return count == n - 1 ? total : -1;
 }
 

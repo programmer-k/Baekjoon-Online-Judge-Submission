@@ -25,8 +25,10 @@ int CalculateMaximumScore(int from, int to, vector<vector<int>>& dp) {
   if (from == to)
     return dp[from][to] = arr[from];
 
-  int candidate1 = prefix_sum[to] - prefix_sum[from] - CalculateMaximumScore(from + 1, to, dp) + arr[from];
-  int candidate2 = prefix_sum[to - 1] - prefix_sum[from - 1] - CalculateMaximumScore(from, to - 1, dp) + arr[to];
+  int candidate1 = prefix_sum[to] - prefix_sum[from] -
+                   CalculateMaximumScore(from + 1, to, dp) + arr[from];
+  int candidate2 = prefix_sum[to - 1] - prefix_sum[from - 1] -
+                   CalculateMaximumScore(from, to - 1, dp) + arr[to];
   return dp[from][to] = max(candidate1, candidate2);
 }
 

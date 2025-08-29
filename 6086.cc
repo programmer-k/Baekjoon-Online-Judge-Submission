@@ -1,13 +1,14 @@
-#include <iostream>
-#include <vector>
-#include <queue>
 #include <algorithm>
+#include <iostream>
 #include <limits>
+#include <queue>
+#include <vector>
 using namespace std;
 
 const int kNode = 52;
 int n;
-vector<vector<int>> flow(kNode, vector<int>(kNode)), capacity(kNode, vector<int>(kNode));
+vector<vector<int>> flow(kNode, vector<int>(kNode)),
+    capacity(kNode, vector<int>(kNode));
 
 int Convert(int ch) {
   if (ch >= 'A' && ch <= 'Z')
@@ -35,7 +36,7 @@ void GetInput() {
 
 void EdmondsKarp(int source, int sink) {
   int total_flow = 0;
-  
+
   while (true) {
     queue<int> q;
     vector<int> parents(kNode, -1);
@@ -48,7 +49,8 @@ void EdmondsKarp(int source, int sink) {
       q.pop();
 
       for (int next = 0; next < kNode; ++next) {
-        if (capacity[curr][next] - flow[curr][next] > 0 && parents[next] == -1) {
+        if (capacity[curr][next] - flow[curr][next] > 0 &&
+            parents[next] == -1) {
           q.push(next);
           parents[next] = curr;
         }

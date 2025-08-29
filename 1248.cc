@@ -1,6 +1,6 @@
+#include <cstdlib>
 #include <iostream>
 #include <vector>
-#include <cstdlib>
 using namespace std;
 
 int n;
@@ -33,11 +33,13 @@ void FindPossibleSequence(int index) {
     answers.push_back(i);
     for (int from = index; from >= 0; --from) {
       int sum = 0;
-      
+
       for (int j = from; j <= to; ++j)
         sum += answers[j];
-      
-      if (!((sum > 0 && sign_matrix[from][to] == '+') || (sum < 0 && sign_matrix[from][to] == '-') || (sum == 0 && sign_matrix[from][to] == '0'))) {
+
+      if (!((sum > 0 && sign_matrix[from][to] == '+') ||
+            (sum < 0 && sign_matrix[from][to] == '-') ||
+            (sum == 0 && sign_matrix[from][to] == '0'))) {
         is_valid = false;
         break;
       }

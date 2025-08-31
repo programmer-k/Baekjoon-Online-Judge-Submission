@@ -1,6 +1,6 @@
+#include <cstdint>
 #include <iostream>
 #include <vector>
-#include <cstdint>
 using namespace std;
 
 const int kDivisor = 1'000'000'000;

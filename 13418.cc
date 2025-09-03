@@ -58,6 +58,7 @@ void GetInput() {
   for (int i = 0; i < m + 1; ++i) {
     int a, b, c;
     cin >> a >> b >> c;
+    c = c ? 0 : 1;
     edges.push_back({a, b, c});
   }
 }

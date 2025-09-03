@@ -1,8 +1,8 @@
-#include <iostream>
-#include <vector>
 #include <algorithm>
-#include <tuple>
 #include <functional>
+#include <iostream>
+#include <tuple>
+#include <vector>
 using namespace std;
 
 class UnionFind {
@@ -24,10 +24,11 @@ class UnionFind {
 
     if (x == y)
       return false;
-    
+
     parents[y] = x;
     return true;
   }
+
  private:
   vector<int> parents;
 };

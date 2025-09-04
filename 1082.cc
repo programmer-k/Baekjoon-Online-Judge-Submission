@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 using namespace std;
 
 int n, m;
@@ -15,7 +15,7 @@ void GetInput() {
   prices.resize(n);
   for (int i = 0; i < n; ++i)
     cin >> prices[i];
-  
+
   cin >> m;
 }
 

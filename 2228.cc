@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
 #include <limits>
+#include <vector>
 using namespace std;
 
 int n, m;
@@ -33,10 +33,10 @@ int CalculateMaximum(int index_n, int index_m, vector<vector<int>>& dp) {
     for (int j = i; j < n; ++j) {
       total += arr[j];
       int next_total = CalculateMaximum(j + 2, index_m + 1, dp);
-      
+
       if (next_total == numeric_limits<int>::min() + 1)
         break;
-      
+
       max_val = max(max_val, total + next_total);
     }
   }

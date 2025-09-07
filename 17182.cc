@@ -1,9 +1,9 @@
+#include <algorithm>
 #include <iostream>
-#include <vector>
+#include <limits>
 #include <queue>
 #include <utility>
-#include <algorithm>
-#include <limits>
+#include <vector>
 using namespace std;
 
 const int kIntMax = numeric_limits<int>::max();
@@ -21,8 +21,10 @@ void GetInput() {
 }
 
 void Dijkstra(int start, vector<int>& dists) {
-  priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-  pq.push({ 0, start });
+  priority_queue<pair<int, int>, vector<pair<int, int>>,
+                 greater<pair<int, int>>>
+      pq;
+  pq.push({0, start});
   dists[start] = 0;
 
   while (!pq.empty()) {
@@ -33,7 +35,7 @@ void Dijkstra(int start, vector<int>& dists) {
 
     if (curr_dist > dists[curr_node])
       continue;
-    
+
     for (int next_node = 0; next_node < n; ++next_node) {
       int next_dist = curr_dist + matrix[curr_node][next_node];
 
@@ -53,7 +55,7 @@ void Solve() {
   vector<int> vec(n);
   for (int i = 0; i < n; ++i)
     vec[i] = i;
-  
+
   int min_time = kIntMax;
   do {
     int total = 0;

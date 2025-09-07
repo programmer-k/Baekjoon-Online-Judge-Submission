@@ -52,14 +52,15 @@ void Solve() {
   for (int i = 0; i < n; ++i)
     Dijkstra(i, dists[i]);
 
-  vector<int> vec(n);
+  vector<int> vec;
   for (int i = 0; i < n; ++i)
-    vec[i] = i;
+    if (i != k)
+      vec.push_back(i);
 
   int min_time = kIntMax;
   do {
-    int total = 0;
-    for (int i = 0; i < n - 1; ++i)
+    int total = dists[k][vec[0]];
+    for (int i = 0; i < ssize(vec) - 1; ++i)
       total += dists[vec[i]][vec[i + 1]];
     min_time = min(min_time, total);
   } while (next_permutation(vec.begin(), vec.end()));

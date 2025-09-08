@@ -1,11 +1,10 @@
-#include <algorithm>
 #include <iostream>
-#include <queue>
 #include <vector>
+#include <set>
 using namespace std;
 
 int n;
-vector<vector<int>> edges;
+vector<set<int>> edges;
 vector<int> visit_order;
 
 void GetInput() {
@@ -18,8 +17,8 @@ void GetInput() {
   for (int i = 0; i < n - 1; ++i) {
     int node1, node2;
     cin >> node1 >> node2;
-    edges[node1].push_back(node2);
-    edges[node2].push_back(node1);
+    edges[node1].insert(node2);
+    edges[node2].insert(node1);
   }
 
   visit_order.resize(n);
@@ -27,48 +26,22 @@ void GetInput() {
     cin >> visit_order[i];
 }
 
-void BreadthFirstSearch(vector<int>& visited) {
-  queue<int> q;
-  q.push(1);
-  visited[1] = 0;
+void Solve() {
+  if (visit_order[0] != 1) {
+    cout << "0\n";
+    return;
+  }
 
-  while (!q.empty()) {
-    int node = q.front();
-    q.pop();
-
-    for (int next_node : edges[node]) {
-      if (visited[next_node] == -1) {
-        q.push(next_node);
-        visited[next_node] = visited[node] + 1;
+  int j = 1;
+  for (int i = 0; i < n && j < n; ++i) {
+    for (; j < n; ++j) {
+      if (!edges[visit_order[i]].contains(visit_order[j])) {
+        break;
       }
     }
   }
-}
 
-void Solve() {
-  vector<int> visited(n + 1, -1);
-  BreadthFirstSearch(visited);
-
-  int max_level = *max_element(visited.begin(), visited.end());
-  vector<vector<int>> levels(max_level + 1);
-  for (int i = 1; i <= n; ++i)
-    levels[visited[i]].push_back(i);
-
-  bool is_valid = true;
-  int from = 0;
-  for (int i = 0; i < ssize(levels); ++i) {
-    int len = ssize(levels[i]);
-    sort(levels[i].begin(), levels[i].end());
-    sort(visit_order.begin() + from, visit_order.begin() + from + len);
-
-    for (int j = 0; j < len; ++j)
-      if (levels[i][j] != visit_order[from + j])
-        is_valid = false;
-
-    from += len;
-  }
-
-  if (is_valid)
+  if (j == n)
     cout << "1\n";
   else
     cout << "0\n";

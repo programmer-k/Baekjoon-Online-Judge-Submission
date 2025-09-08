@@ -1,7 +1,7 @@
-#include <iostream>
-#include <vector>
-#include <queue>
 #include <algorithm>
+#include <iostream>
+#include <queue>
+#include <vector>
 using namespace std;
 
 int n;
@@ -60,7 +60,7 @@ void Solve() {
     int len = ssize(levels[i]);
     sort(levels[i].begin(), levels[i].end());
     sort(visit_order.begin() + from, visit_order.begin() + from + len);
-    
+
     for (int j = 0; j < len; ++j)
       if (levels[i][j] != visit_order[from + j])
         is_valid = false;

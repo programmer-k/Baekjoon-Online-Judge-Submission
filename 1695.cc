@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
 #include <limits>
+#include <vector>
 using namespace std;
 
 int n;
@@ -31,7 +31,8 @@ int Count(int left, int right, vector<vector<int>>& dp) {
   if (arr[left] == arr[right])
     return dp[left][right] = Count(left - 1, right + 1, dp);
 
-  return dp[left][right] = min(Count(left - 1, right, dp), Count(left, right + 1, dp)) + 1;
+  return dp[left][right] =
+             min(Count(left - 1, right, dp), Count(left, right + 1, dp)) + 1;
 }
 
 void Solve() {

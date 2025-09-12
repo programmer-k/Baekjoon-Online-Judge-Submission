@@ -1,12 +1,13 @@
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 using namespace std;
 
 int n, m, k;
 vector<vector<char>> map(100, vector<char>(100));
 string word;
-vector<vector<vector<int>>> dp(100, vector<vector<int>>(100, vector<int>(80, -1)));
+vector<vector<vector<int>>> dp(100,
+                               vector<vector<int>>(100, vector<int>(80, -1)));
 
 void GetInput() {
   cin.tie(nullptr);

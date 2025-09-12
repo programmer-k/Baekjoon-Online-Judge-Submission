@@ -29,7 +29,7 @@ int DepthFirstSearch(int row, int col, int index) {
 
   int total = 0;
   for (int i = -k; i <= k; ++i) {
-    if (k == 0)
+    if (i == 0)
       continue;
 
     int next_row = row + i;
@@ -43,7 +43,7 @@ int DepthFirstSearch(int row, int col, int index) {
   }
 
   for (int i = -k; i <= k; ++i) {
-    if (k == 0)
+    if (i == 0)
       continue;
 
     int next_col = col + i;

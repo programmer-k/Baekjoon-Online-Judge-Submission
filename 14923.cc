@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
 #include <queue>
+#include <vector>
 using namespace std;
 
 struct Data {
@@ -28,10 +28,11 @@ void GetInput() {
 
 int BreadthFirstSearch() {
   queue<Data> q;
-  vector<vector<vector<int>>> visited(2, vector<vector<int>>(n + 1, vector<int>(m + 1, -1)));
+  vector<vector<vector<int>>> visited(
+      2, vector<vector<int>>(n + 1, vector<int>(m + 1, -1)));
   q.push({hx, hy, 0});
   visited[0][hx][hy] = 0;
-  
+
   while (!q.empty()) {
     Data data = q.front();
     int row = data.row;
@@ -47,20 +48,20 @@ int BreadthFirstSearch() {
 
       if (next_row <= 0 || next_col <= 0 || next_row > n || next_col > m)
         continue;
-      
+
       if (map[next_row][next_col] == 0) {
         if (visited[stick][next_row][next_col] != -1)
           continue;
-        
+
         q.push({next_row, next_col, stick});
         visited[stick][next_row][next_col] = visited[stick][row][col] + 1;
       } else {
         if (stick == 1)
           continue;
-        
+
         if (visited[1][next_row][next_col] != -1)
           continue;
-        
+
         q.push({next_row, next_col, 1});
         visited[1][next_row][next_col] = visited[stick][row][col] + 1;
       }

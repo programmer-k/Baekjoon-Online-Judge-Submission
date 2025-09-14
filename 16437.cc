@@ -1,7 +1,7 @@
-#include <iostream>
-#include <vector>
-#include <queue>
 #include <cstdint>
+#include <iostream>
+#include <queue>
+#include <vector>
 using namespace std;
 
 int n;
@@ -20,7 +20,7 @@ void GetInput() {
     char t;
     int a;
     cin >> t >> a >> parents[i];
-    
+
     if (t == 'W')
       nodes[i] = -a;
     else

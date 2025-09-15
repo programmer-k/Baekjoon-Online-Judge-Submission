@@ -1,6 +1,6 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
 using namespace std;
 
 int n, m;
@@ -37,13 +37,14 @@ class UnionFind {
 
     if (x == y)
       return false;
-    
+
     if (IsEdge(x))
       parents_[y] = x;
     else
       parents_[x] = y;
     return true;
   }
+
  private:
   vector<int> parents_;
 };
@@ -80,7 +81,7 @@ void Solve() {
     for (int j = 1; j <= m; ++j)
       if (IsEdge(union_find.Find(GetIndex(i, j))))
         ++answer;
-  
+
   cout << answer << '\n';
 }
 

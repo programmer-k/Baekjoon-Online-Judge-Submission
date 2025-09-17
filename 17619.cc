@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <tuple>
 #include <utility>
 #include <vector>
 using namespace std;
@@ -8,6 +9,10 @@ struct Data {
   int from;
   int to;
   int index;
+
+  bool operator<(const Data& rhs) {
+    return tie(from, to, index) < tie(rhs.from, rhs.to, rhs.index);
+  }
 };
 
 class UnionFind {

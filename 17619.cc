@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <iostream>
-#include <vector>
 #include <utility>
+#include <vector>
 using namespace std;
 
 class UnionFind {
@@ -27,6 +27,7 @@ class UnionFind {
     parents_[y] = x;
     return true;
   }
+
  private:
   vector<int> parents_;
 };

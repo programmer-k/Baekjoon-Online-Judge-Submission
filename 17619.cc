@@ -4,6 +4,12 @@
 #include <vector>
 using namespace std;
 
+struct Data {
+  int from;
+  int to;
+  int index;
+};
+
 class UnionFind {
  public:
   UnionFind(int size) : parents_(size) {
@@ -33,7 +39,8 @@ class UnionFind {
 };
 
 int n, q;
-vector<pair<int, int>> arr, queries;
+vector<Data> arr;
+vector<pair<int, int>> queries;
 
 void GetInput() {
   cin.tie(nullptr);
@@ -43,8 +50,10 @@ void GetInput() {
 
   int garbage;
   arr.resize(n + 1);
-  for (int i = 1; i <= n; ++i)
-    cin >> arr[i].first >> arr[i].second >> garbage;
+  for (int i = 1; i <= n; ++i) {
+    cin >> arr[i].from >> arr[i].to >> garbage;
+    arr[i].index = i;
+  }
 
   queries.resize(q + 1);
   for (int i = 1; i <= q; ++i)
@@ -56,8 +65,8 @@ void Solve() {
   sort(arr.begin() + 1, arr.end());
 
   for (int i = 1, j = 2; i <= n && j <= n;) {
-    if (arr[i].second >= arr[j].first) {
-      union_find.Union(i, j);
+    if (arr[i].to >= arr[j].from) {
+      union_find.Union(arr[i].index, arr[j].index);
       ++j;
     } else {
       ++i;

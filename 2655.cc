@@ -43,7 +43,8 @@ void Solve() {
     dp[i].first = bricks[i].height;
     dp[i].second = -1;
     for (int j = 0; j < i; ++j) {
-      if (bricks[i].weight < bricks[j].weight && dp[i].first < dp[j].first + bricks[i].height) {
+      if (bricks[i].weight < bricks[j].weight &&
+          dp[i].first < dp[j].first + bricks[i].height) {
         dp[i].first = dp[j].first + bricks[i].height;
         dp[i].second = j;
       }

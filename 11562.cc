@@ -1,9 +1,11 @@
 #include <deque>
 #include <iostream>
+#include <limits>
 #include <utility>
 #include <vector>
 using namespace std;
 
+const int kIntMax = numeric_limits<int>::max();
 int n, m, k;
 vector<vector<pair<int, int>>> edges;
 vector<pair<int, int>> questions;
@@ -43,21 +45,20 @@ void ZeroOneBreadthFirstSearch(int start, vector<int>& dists) {
     deq.pop_front();
 
     for (const pair<int, int>& next : edges[node]) {
-      if (dists[next.first] == -1) {
+      if (dists[node] + next.second < dists[next.first]) {
         if (next.second == 0) {
           deq.push_front(next.first);
-          dists[next.first] = dists[node];
         } else {
           deq.push_back(next.first);
-          dists[next.first] = dists[node] + 1;
         }
+        dists[next.first] = dists[node] + next.second;
       }
     }
   }
 }
 
 void Solve() {
-  vector<vector<int>> dists(n + 1, vector<int>(n + 1, -1));
+  vector<vector<int>> dists(n + 1, vector<int>(n + 1, kIntMax));
   for (int i = 1; i <= n; ++i)
     ZeroOneBreadthFirstSearch(i, dists[i]);
 

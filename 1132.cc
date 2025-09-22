@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <iostream>
 #include <string>
+#include <unordered_set>
+#include <utility>
 #include <vector>
 using namespace std;
 
@@ -19,33 +21,49 @@ void GetInput() {
     cin >> arr[i];
 }
 
+int64_t Power(int base, int exp) {
+  int64_t result = 1;
+  for (int i = 0; i < exp; ++i)
+    result *= base;
+  return result;
+}
+
 void Solve() {
-  int64_t max_val = 0;
-  vector<char> alphabet_to_num(10);
-  for (int i = 0; i < 10; ++i)
-    alphabet_to_num[i] = '0' + i;
-
-  do {
-    bool is_valid = true;
-    int64_t total = 0;
-    for (const string& str : arr) {
-      if (alphabet_to_num[str.front() - 'A'] == '0') {
-        is_valid = false;
-        break;
-      }
-
-      string nums;
-      for (const char& ch : str)
-        nums.push_back(alphabet_to_num[ch - 'A']);
-
-      total += stoll(nums);
+  vector<int64_t> counts(10);
+  for (const string& str : arr) {
+    for (int i = 0; i < ssize(str); ++i) {
+      int pos = ssize(str) - i - 1;
+      int index = str[i] - 'A';
+      counts[index] += Power(10, pos);
     }
+  }
 
-    if (is_valid)
-      max_val = max(max_val, total);
-  } while (next_permutation(alphabet_to_num.begin(), alphabet_to_num.end()));
+  unordered_set<char> start_nums;
+  for (const string& str : arr)
+    start_nums.insert(str.front());
 
-  cout << max_val << '\n';
+  vector<pair<int64_t, char>> highest_digit_counts;
+  for (int i = 0; i < 10; ++i)
+    highest_digit_counts.push_back({counts[i], i + 'A'});
+  sort(highest_digit_counts.begin(), highest_digit_counts.end());
+
+  char zero_alphabet = 0;
+  for (const pair<int64_t, char>& p : highest_digit_counts) {
+    if (!start_nums.contains(p.second)) {
+      zero_alphabet = p.second;
+      break;
+    }
+  }
+
+  int val = 1;
+  int64_t answer = 0;
+  for (const pair<int64_t, char>& p : highest_digit_counts) {
+    if (p.second != zero_alphabet) {
+      answer += p.first * val++;
+    }
+  }
+
+  cout << answer << '\n';
 }
 
 int main() {

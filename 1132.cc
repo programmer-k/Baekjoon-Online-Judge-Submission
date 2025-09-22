@@ -1,8 +1,8 @@
+#include <algorithm>
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <cstdint>
 using namespace std;
 
 int n;

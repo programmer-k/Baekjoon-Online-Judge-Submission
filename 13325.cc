@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
 #include <utility>
+#include <vector>
 using namespace std;
 
 int k;
@@ -43,7 +43,7 @@ int UpdateEdgesWeight(int node) {
 int CalculateTotalWeight(int node) {
   if (node >= ssize(nodes))
     return 0;
-  
+
   int child1 = CalculateTotalWeight(node * 2) + nodes[node].first;
   int child2 = CalculateTotalWeight(node * 2 + 1) + nodes[node].second;
 

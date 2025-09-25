@@ -1,7 +1,7 @@
 #include <iostream>
-#include <vector>
-#include <utility>
 #include <set>
+#include <utility>
+#include <vector>
 using namespace std;
 
 class UnionFind {
@@ -35,6 +35,7 @@ class UnionFind {
   int GetSize(int x) {
     return sizes[x];
   }
+
  private:
   vector<int> parents, sizes;
 };

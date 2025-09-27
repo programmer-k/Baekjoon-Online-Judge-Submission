@@ -1,6 +1,6 @@
 #include <iostream>
-#include <vector>
 #include <utility>
+#include <vector>
 using namespace std;
 
 class UnionFind {
@@ -22,10 +22,10 @@ class UnionFind {
 
     if (x == y)
       return false;
-    
+
     if (sizes_[x] < sizes_[y])
       swap(x, y);
-    
+
     parents_[y] = x;
     sizes_[x] += sizes_[y];
     return true;
@@ -38,7 +38,9 @@ class UnionFind {
 int n, k, r;
 vector<vector<pair<int, int>>> roads;
 vector<pair<int, int>> cows;
-vector<vector<vector<bool>>> road_map(100, vector<vector<bool>>(100, vector<bool>(2)));
+vector<vector<vector<bool>>> road_map(100,
+                                      vector<vector<bool>>(100,
+                                                           vector<bool>(2)));
 
 void GetInput() {
   cin.tie(nullptr);
@@ -75,7 +77,7 @@ void Solve() {
 
     if (p1 > p2)
       swap(p1, p2);
-    
+
     if (p1.first == p2.first)
       road_map[p1.first][p1.second][0] = true;
     else

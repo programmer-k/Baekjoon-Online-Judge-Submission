@@ -1,7 +1,7 @@
-#include <iostream>
-#include <vector>
 #include <algorithm>
+#include <iostream>
 #include <limits>
+#include <vector>
 using namespace std;
 
 int n;
@@ -28,17 +28,17 @@ void CalculateMinDiff(int row, int col) {
         map[row + i][col - i] = 5;            // 1st boundary
         map[row + d2 + i][col + d2 - i] = 5;  // 4th boundary
       }
-      
+
       for (int i = 0; i <= d2; ++i) {
         map[row + i][col + i] = 5;            // 2nd boundary
         map[row + d1 + i][col - d1 + i] = 5;  // 3rd boundary
       }
-      
+
       // Paint the inner region.
       for (int i = 1; i <= d1; ++i)
         for (int j = 1; map[row + i][col - i + j] != 5; ++j)
           map[row + i][col - i + j] = 5;
-      
+
       for (int i = 1; i < d2; ++i)
         for (int j = 1; map[row + d1 + i][col - d1 + i + j] != 5; ++j)
           map[row + d1 + i][col - d1 + i + j] = 5;
@@ -76,7 +76,7 @@ void Solve() {
   for (int i = 0; i < n; ++i)
     for (int j = 0; j < n; ++j)
       CalculateMinDiff(i, j);
-  
+
   cout << answer << '\n';
 }
 

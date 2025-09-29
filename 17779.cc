@@ -44,16 +44,26 @@ void CalculateMinDiff(int row, int col) {
           map[row + d1 + i][col - d1 + i + j] = 5;
 
       // Paint other regions.
+      for (int i = 0; i < row + d1; ++i)
+        for (int j = 0; j <= col; ++j)
+          if (map[i][j] == 0)
+            map[i][j] = 1;
+          else
+            break;
+
+      for (int i = row + d1; i < n; ++i)
+        for (int j = 0; j < col - d1 + d2; ++j)
+          if (map[i][j] == 0)
+            map[i][j] = 3;
+          else
+            break;
+
       for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
           if (map[i][j] == 0) {
-            if (i < row + d1 && j <= col)
-              map[i][j] = 1;
-            else if (i <= row + d2 && j > col)
+            if (i <= row + d2)
               map[i][j] = 2;
-            else if (i >= row + d1 && j < col - d1 + d2)
-              map[i][j] = 3;
-            else if (i > row + d2 && j >= col - d1 + d2)
+            else
               map[i][j] = 4;
           }
         }

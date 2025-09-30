@@ -1,7 +1,7 @@
 #include <iostream>
-#include <vector>
 #include <queue>
 #include <utility>
+#include <vector>
 using namespace std;
 
 struct Data {
@@ -26,16 +26,19 @@ void GetInput() {
 Data GetPosition(char ch) {
   for (int i = 0; i < n; ++i)
     for (int j = 0; j < n; ++j)
-      if (i > 0 && i < n - 1 && map[i - 1][j] == ch && map[i][j] == ch && map[i + 1][j] == ch)
+      if (i > 0 && i < n - 1 && map[i - 1][j] == ch && map[i][j] == ch &&
+          map[i + 1][j] == ch)
         return {i, j, 0};
-      else if (j > 0 && j < n - 1 && map[i][j - 1] == ch && map[i][j] == ch && map[i][j + 1] == ch)
+      else if (j > 0 && j < n - 1 && map[i][j - 1] == ch && map[i][j] == ch &&
+               map[i][j + 1] == ch)
         return {i, j, 1};
   return {-1, -1, -1};
 }
 
 int BreadthFirstSearch(const Data& start, const Data& end) {
   queue<Data> q;
-  vector<vector<vector<int>>> visited(n, vector<vector<int>>(n, vector<int>(2, -1)));
+  vector<vector<vector<int>>> visited(
+      n, vector<vector<int>>(n, vector<int>(2, -1)));
   q.push(start);
   visited[start.row][start.col][start.direction] = 0;
 
@@ -48,23 +51,22 @@ int BreadthFirstSearch(const Data& start, const Data& end) {
 
     // {Up, Down, Left, Right, Turn}
     vector<vector<pair<int, int>>> vertical_checks = {
-      {{-2, 0}},
-      {{2, 0}},
-      {{-1, -1}, {0, -1}, {1, -1}},
-      {{-1, 1}, {0, 1}, {1, 1}},
-      {{-1, -1}, {0, -1}, {1, -1}, {-1, 1}, {0, 1}, {1, 1}}
-    };
+        {{-2, 0}},
+        {{2, 0}},
+        {{-1, -1}, {0, -1}, {1, -1}},
+        {{-1, 1}, {0, 1}, {1, 1}},
+        {{-1, -1}, {0, -1}, {1, -1}, {-1, 1}, {0, 1}, {1, 1}}};
 
     vector<vector<pair<int, int>>> horizontal_checks = {
-      {{-1, -1}, {-1, 0}, {-1, 1}},
-      {{1, -1}, {1, 0}, {1, 1}},
-      {{0, -2}},
-      {{0, 2}},
-      {{-1, -1}, {-1, 0}, {-1, 1}, {1, -1}, {1, 0}, {1, 1}}
-    };
+        {{-1, -1}, {-1, 0}, {-1, 1}},
+        {{1, -1}, {1, 0}, {1, 1}},
+        {{0, -2}},
+        {{0, 2}},
+        {{-1, -1}, {-1, 0}, {-1, 1}, {1, -1}, {1, 0}, {1, 1}}};
 
     vector<bool> are_valid;
-    const vector<vector<pair<int, int>>>& checks = (direction == 0 ? vertical_checks : horizontal_checks);
+    const vector<vector<pair<int, int>>>& checks =
+        (direction == 0 ? vertical_checks : horizontal_checks);
     for (const vector<pair<int, int>>& check : checks) {
       bool is_valid = true;
       for (const pair<int, int>& p : check) {
@@ -75,7 +77,7 @@ int BreadthFirstSearch(const Data& start, const Data& end) {
           is_valid = false;
           break;
         }
-        
+
         if (map[next_row][next_col] == '1') {
           is_valid = false;
           break;
@@ -95,12 +97,15 @@ int BreadthFirstSearch(const Data& start, const Data& end) {
           continue;
 
         q.push({next_row, next_col, next_direction});
-        visited[next_row][next_col][next_direction] = visited[row][col][direction] + 1;
+        visited[next_row][next_col][next_direction] =
+            visited[row][col][direction] + 1;
       }
     }
   }
 
-  return visited[end.row][end.col][end.direction] == -1 ? 0 : visited[end.row][end.col][end.direction];
+  return visited[end.row][end.col][end.direction] == -1
+             ? 0
+             : visited[end.row][end.col][end.direction];
 }
 
 void Solve() {

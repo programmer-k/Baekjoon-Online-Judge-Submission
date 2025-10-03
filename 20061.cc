@@ -1,7 +1,7 @@
 #include <iostream>
-#include <vector>
-#include <utility>
 #include <set>
+#include <utility>
+#include <vector>
 using namespace std;
 
 struct Block {
@@ -42,7 +42,7 @@ void MoveBlock(vector<pair<int, int>> positions, bool move_bottom) {
   // Move until it reaches invalid position.
   while (IsValid(positions)) {
     for (pair<int, int>& position : positions)
-      if (move_bottom)  
+      if (move_bottom)
         ++position.first;
       else
         ++position.second;
@@ -140,12 +140,12 @@ void Process(const vector<pair<int, int>>& positions) {
 void Solve() {
   for (const Block& block : blocks) {
     vector<pair<int, int>> positions = {{block.x, block.y}};
-    
+
     if (block.t == 2)
       positions.push_back({block.x, block.y + 1});
     else if (block.t == 3)
       positions.push_back({block.x + 1, block.y});
-    
+
     Process(positions);
   }
 
@@ -154,7 +154,7 @@ void Solve() {
     for (int j = 6; j <= 9; ++j)
       if (map[i][j])
         ++blue_count;
-  
+
   for (int i = 6; i <= 9; ++i)
     for (int j = 0; j < 4; ++j)
       if (map[i][j])

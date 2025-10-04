@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <iostream>
-#include <vector>
-#include <utility>
 #include <queue>
+#include <utility>
+#include <vector>
 using namespace std;
 
 int n, l, p;
@@ -29,7 +29,7 @@ void Solve() {
   priority_queue<int> pq;
   for (int i = 1; i < ssize(stations); ++i) {
     int move_forward = stations[i].first - stations[i - 1].first;
-    
+
     while (p - move_forward < 0 && !pq.empty()) {
       p += pq.top();
       pq.pop();

@@ -1,12 +1,11 @@
 #include <iostream>
 #include <queue>
-#include <set>
 #include <vector>
 using namespace std;
 
 int n, k, m;
+vector<vector<int>> edges(101'001);
 vector<vector<int>> hyper_tubes(1'000, vector<int>(1'000));
-vector<set<int>> hyper_tube_sets(1'000);
 
 void GetInput() {
   cin.tie(nullptr);
@@ -21,36 +20,36 @@ void GetInput() {
 
 int BreadthFirstSearch() {
   queue<int> q;
-  vector<int> node_visited(n + 1, -1);
-  vector<bool> set_visited(m);
+  vector<int> visited(n + 1, -1);
   q.push(1);
-  node_visited[1] = 1;
+  visited[1] = 1;
 
   while (!q.empty()) {
     int node = q.front();
     q.pop();
 
-    for (int i = 0; i < m; ++i) {
-      if (!set_visited[i] && hyper_tube_sets[i].contains(node)) {
-        set_visited[i] = true;
-        for (int j = 0; j < k; ++j) {
-          int next_node = hyper_tubes[i][j];
-          if (node_visited[next_node] == -1) {
-            q.push(next_node);
-            node_visited[next_node] = node_visited[node] + 1;
-          }
+    for (int next_hyper_tube : edges[node]) {
+      for (int next_node : edges[next_hyper_tube]) {
+        if (visited[next_node] == -1) {
+          q.push(next_node);
+          visited[next_node] = visited[node] + 1;
         }
       }
     }
   }
 
-  return node_visited[n];
+  return visited[n];
 }
 
 void Solve() {
-  for (int i = 0; i < m; ++i)
-    for (int j = 0; j < k; ++j)
-      hyper_tube_sets[i].insert(hyper_tubes[i][j]);
+  for (int i = 0; i < m; ++i) {
+    for (int j = 0; j < k; ++j) {
+      int node = hyper_tubes[i][j];
+      int hyper_tube = n + i + 1;
+      edges[node].push_back(hyper_tube);
+      edges[hyper_tube].push_back(node);
+    }
+  }
 
   cout << BreadthFirstSearch() << '\n';
 }

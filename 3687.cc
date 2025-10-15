@@ -1,8 +1,11 @@
+#include <cstdint>
 #include <iostream>
+#include <limits>
 #include <vector>
 using namespace std;
 
 int test_case, n;
+vector<int64_t> dp(101, numeric_limits<int64_t>::max());
 
 void GetInput1() {
   cin.tie(nullptr);
@@ -14,31 +17,19 @@ void GetInput2() {
   cin >> n;
 }
 
-void CalculateMin(int num) {
-  vector<int> answers(14);
-  answers[2] = 1;
-  answers[3] = 7;
-  answers[4] = 4;
-  answers[5] = 2;
-  answers[6] = 6;
-  answers[7] = 8;
+void CalculateMin() {
+  dp[2] = 1;
+  dp[3] = 7;
+  dp[4] = 4;
+  dp[5] = 2;
+  dp[6] = 6;
+  dp[7] = 8;
+  dp[8] = 10;
 
-  answers[8] = 10;
-  answers[9] = 18;
-  answers[10] = 22;
-  answers[11] = 20;
-  answers[12] = 28;
-  answers[13] = 68;
-
-  int count = 0;
-  while (num >= 14) {
-    num -= 7;
-    ++count;
-  }
-
-  cout << answers[num];
-  for (int i = 0; i < count; ++i)
-    cout << '8';
+  vector<int> min_nums = {0, 0, 1, 7, 4, 2, 0, 8};
+  for (int i = 9; i <= 100; ++i)
+    for (int j = 2; j <= 7; ++j)
+      dp[i] = min(dp[i], dp[i - j] * 10 + min_nums[j]);
 }
 
 void CalculateMax(int num) {
@@ -52,13 +43,13 @@ void CalculateMax(int num) {
 }
 
 void Solve() {
-  CalculateMin(n);
-  cout << ' ';
+  cout << dp[n] << ' ';
   CalculateMax(n);
   cout << '\n';
 }
 
 int main() {
+  CalculateMin();
   GetInput1();
   for (int i = 0; i < test_case; ++i) {
     GetInput2();

@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <iostream>
-#include <vector>
+#include <limits>
 #include <tuple>
 #include <utility>
-#include <limits>
+#include <vector>
 using namespace std;
 
 class UnionFind {
@@ -29,6 +29,7 @@ class UnionFind {
     parents_[y] = x;
     return true;
   }
+
  private:
   vector<int> parents_;
 };
@@ -80,7 +81,9 @@ void Kruskal(vector<Edge>& edges, vector<vector<pair<int, int>>>& mst) {
   }
 }
 
-void DepthFirstSearch(int node, int edge_cost, int& total_cost, const vector<vector<pair<int, int>>>& mst, vector<bool>& visited) {
+void DepthFirstSearch(int node, int edge_cost, int& total_cost,
+                      const vector<vector<pair<int, int>>>& mst,
+                      vector<bool>& visited) {
   total_cost += min(weights[node], edge_cost);
   visited[node] = true;
   for (const pair<int, int>& next : mst[node])
@@ -89,11 +92,13 @@ void DepthFirstSearch(int node, int edge_cost, int& total_cost, const vector<vec
 }
 
 int CalculateMinCost(const vector<vector<pair<int, int>>>& mst) {
-  int min_weight_index = min_element(weights.begin(), weights.end()) - weights.begin();
+  int min_weight_index =
+      min_element(weights.begin(), weights.end()) - weights.begin();
 
   int total_cost = 0;
   vector<bool> visited(n);
-  DepthFirstSearch(min_weight_index, numeric_limits<int>::max(), total_cost, mst, visited);
+  DepthFirstSearch(min_weight_index, numeric_limits<int>::max(), total_cost,
+                   mst, visited);
   return total_cost;
 }
 

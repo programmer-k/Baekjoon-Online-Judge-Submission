@@ -92,14 +92,19 @@ void DepthFirstSearch(int node, int edge_cost, int& total_cost,
 }
 
 int CalculateMinCost(const vector<vector<pair<int, int>>>& mst) {
-  int min_weight_index =
-      min_element(weights.begin(), weights.end()) - weights.begin();
+  int min_weight = *min_element(weights.begin(), weights.end());
+  int min_cost = numeric_limits<int>::max();
 
-  int total_cost = 0;
-  vector<bool> visited(n);
-  DepthFirstSearch(min_weight_index, numeric_limits<int>::max(), total_cost,
-                   mst, visited);
-  return total_cost;
+  for (int i = 0; i < n; ++i) {
+    if (weights[i] == min_weight) {
+      int total_cost = 0;
+      vector<bool> visited(n);
+      DepthFirstSearch(i, numeric_limits<int>::max(), total_cost, mst, visited);
+      min_cost = min(min_cost, total_cost);
+    }
+  }
+
+  return min_cost;
 }
 
 void Solve() {

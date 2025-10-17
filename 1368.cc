@@ -78,7 +78,7 @@ void Kruskal(vector<Edge>& edges, vector<vector<pair<int, int>>>& mst) {
     if (union_find.Union(edge.node1, edge.node2)) {
       mst[edge.node1].push_back({edge.node2, edge.cost});
       mst[edge.node2].push_back({edge.node1, edge.cost});
-      //cout << edge.node1 << '-' << edge.node2 << ": " << edge.cost << '\n';
+      // cout << edge.node1 << '-' << edge.node2 << ": " << edge.cost << '\n';
     }
   }
 }
@@ -131,7 +131,7 @@ int CalculateMinCost(const vector<vector<pair<int, int>>>& mst) {
     if (index3 != -1)
       selected_nodes[index3] = true;
 
-    //cout << i << ": " << min_val << '\n';
+    // cout << i << ": " << min_val << '\n';
     min_cost += min_val;
   }
 

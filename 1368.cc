@@ -108,7 +108,6 @@ int CalculateMinCost(const vector<vector<pair<int, int>>>& mst) {
     if (!(index1 == -1 && index2 == -1))
       selected_edges.insert({index1, index2});
 
-    cout << min_val << '\n';
     min_cost += min_val;
   }
 

@@ -78,36 +78,60 @@ void Kruskal(vector<Edge>& edges, vector<vector<pair<int, int>>>& mst) {
     if (union_find.Union(edge.node1, edge.node2)) {
       mst[edge.node1].push_back({edge.node2, edge.cost});
       mst[edge.node2].push_back({edge.node1, edge.cost});
+      //cout << edge.node1 << '-' << edge.node2 << ": " << edge.cost << '\n';
+    }
+  }
+}
+
+void DepthFirstSearch(int i, int& min_val, int& index1, int& index2,
+                      int& index3, vector<bool>& visited,
+                      const vector<bool>& selected_nodes,
+                      const set<pair<int, int>>& selected_edges,
+                      const vector<vector<pair<int, int>>>& mst) {
+  visited[i] = true;
+  for (const pair<int, int>& edge : mst[i]) {
+    if (selected_edges.contains({min(i, edge.first), max(i, edge.first)})) {
+      if (!selected_nodes[edge.first] && weights[edge.first] < min_val) {
+        min_val = weights[edge.first];
+        index1 = -1;
+        index2 = -1;
+        index3 = edge.first;
+      }
+
+      if (!visited[edge.first])
+        DepthFirstSearch(edge.first, min_val, index1, index2, index3, visited,
+                         selected_nodes, selected_edges, mst);
+    } else {
+      if (edge.second < min_val) {
+        min_val = edge.second;
+        index1 = min(i, edge.first);
+        index2 = max(i, edge.first);
+        index3 = -1;
+      }
     }
   }
 }
 
 int CalculateMinCost(const vector<vector<pair<int, int>>>& mst) {
   int min_cost = 0;
+  vector<bool> selected_nodes(n);
   set<pair<int, int>> selected_edges;
   for (int i = 0; i < n; ++i) {
     int min_val = weights[i];
     int index1 = -1;
     int index2 = -1;
-    for (const pair<int, int>& edge : mst[i]) {
-      if (selected_edges.contains({min(i, edge.first), max(i, edge.first)})) {
-        if (weights[edge.first] < min_val) {
-          min_val = weights[edge.first];
-          index1 = -1;
-          index2 = -1;
-        }
-      } else {
-        if (edge.second < min_val) {
-          min_val = edge.second;
-          index1 = min(i, edge.first);
-          index2 = max(i, edge.first);
-        }
-      }
-    }
+    int index3 = -1;
+    vector<bool> visited(n);
+    DepthFirstSearch(i, min_val, index1, index2, index3, visited,
+                     selected_nodes, selected_edges, mst);
 
     if (!(index1 == -1 && index2 == -1))
       selected_edges.insert({index1, index2});
 
+    if (index3 != -1)
+      selected_nodes[index3] = true;
+
+    //cout << i << ": " << min_val << '\n';
     min_cost += min_val;
   }
 

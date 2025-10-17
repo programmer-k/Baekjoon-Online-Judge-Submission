@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <limits>
+#include <set>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -81,24 +82,34 @@ void Kruskal(vector<Edge>& edges, vector<vector<pair<int, int>>>& mst) {
   }
 }
 
-void DepthFirstSearch(int node, int edge_cost, int& total_cost,
-                      const vector<vector<pair<int, int>>>& mst,
-                      vector<bool>& visited) {
-  total_cost += min(weights[node], edge_cost);
-  visited[node] = true;
-  for (const pair<int, int>& next : mst[node])
-    if (!visited[next.first])
-      DepthFirstSearch(next.first, next.second, total_cost, mst, visited);
-}
-
 int CalculateMinCost(const vector<vector<pair<int, int>>>& mst) {
-  int min_cost = numeric_limits<int>::max();
-
+  int min_cost = 0;
+  set<pair<int, int>> selected_edges;
   for (int i = 0; i < n; ++i) {
-    int total_cost = 0;
-    vector<bool> visited(n);
-    DepthFirstSearch(i, numeric_limits<int>::max(), total_cost, mst, visited);
-    min_cost = min(min_cost, total_cost);
+    int min_val = weights[i];
+    int index1 = -1;
+    int index2 = -1;
+    for (const pair<int, int>& edge : mst[i]) {
+      if (selected_edges.contains({min(i, edge.first), max(i, edge.first)})) {
+        if (weights[edge.first] < min_val) {
+          min_val = weights[edge.first];
+          index1 = -1;
+          index2 = -1;
+        }
+      } else {
+        if (edge.second < min_val) {
+          min_val = edge.second;
+          index1 = min(i, edge.first);
+          index2 = max(i, edge.first);
+        }
+      }
+    }
+
+    if (!(index1 == -1 && index2 == -1))
+      selected_edges.insert({index1, index2});
+
+    cout << min_val << '\n';
+    min_cost += min_val;
   }
 
   return min_cost;

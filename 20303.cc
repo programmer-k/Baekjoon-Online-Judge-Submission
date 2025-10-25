@@ -1,11 +1,12 @@
 #include <iostream>
-#include <vector>
 #include <utility>
+#include <vector>
 using namespace std;
 
 class UnionFind {
  public:
-  UnionFind(int size, const vector<int>& candies) : parents_(size), sizes_(size, 1), candies_(candies) {
+  UnionFind(int size, const vector<int>& candies)
+      : parents_(size), sizes_(size, 1), candies_(candies) {
     for (int i = 0; i < size; ++i)
       parents_[i] = i;
   }
@@ -82,7 +83,12 @@ void Solve() {
   vector<vector<int>> knapsack(group_count + 1, vector<int>(k));
   for (int i = 1; i <= group_count; ++i)
     for (int j = 0; j < k; ++j)
-      knapsack[i][j] = max(knapsack[i - 1][j], j - union_find.GetSize(group_indices[i]) >= 0 ? knapsack[i - 1][j - union_find.GetSize(group_indices[i])] + union_find.GetCandy(group_indices[i]) : 0);
+      knapsack[i][j] =
+          max(knapsack[i - 1][j],
+              j - union_find.GetSize(group_indices[i]) >= 0
+                  ? knapsack[i - 1][j - union_find.GetSize(group_indices[i])] +
+                        union_find.GetCandy(group_indices[i])
+                  : 0);
 
   cout << knapsack[group_count][k - 1] << '\n';
 }

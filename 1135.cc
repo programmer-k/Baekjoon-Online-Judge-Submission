@@ -25,7 +25,7 @@ int DepthFirstSearch(int node) {
   vector<int> arr;
   for (int next_node : edges[node])
     arr.push_back(DepthFirstSearch(next_node));
-  
+
   sort(arr.begin(), arr.end());
   for (int i = 0; i < ssize(arr); ++i)
     arr[i] += ssize(arr) - i;

@@ -40,6 +40,8 @@ void Solve() {
     int diff = arr[n - 1 - i] - arr[i];
     answer += count * diff;
     answer %= kMod;
+    if (answer < 0)
+      answer += kMod;
   }
 
   cout << answer << '\n';

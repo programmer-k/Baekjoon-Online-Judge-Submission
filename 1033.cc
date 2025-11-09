@@ -51,6 +51,16 @@ class UnionFind {
           curr_ratios_[i] *= mult_y;
     }
 
+    int gcd_val = curr_ratios_[parent_x];
+    for (int i = 0; i < ssize(parents_); ++i)
+      if (Find(i) == parent_x || Find(i) == parent_y)
+        gcd_val = gcd(gcd_val, curr_ratios_[i]);
+
+    if (gcd_val > 1)
+      for (int i = 0; i < ssize(parents_); ++i)
+        if (Find(i) == parent_x || Find(i) == parent_y)
+          curr_ratios_[i] /= gcd_val;
+
     parents_[parent_y] = parent_x;
     return true;
   }

@@ -35,10 +35,6 @@ class UnionFind {
     return group_count_;
   }
 
-  int GetParent(int val) {
-    return parents_[val];
-  }
-
  private:
   int group_count_;
   vector<int> parents_;
@@ -101,7 +97,7 @@ void Solve() {
   unordered_map<int, pair<int, int>> group_mins;
   int group_count = union_find.GetGroupCount() - 1;
   for (int i = 1; i <= n; ++i) {
-    int group_num = union_find.GetParent(i);
+    int group_num = union_find.Find(i);
     if (!group_mins.contains(group_num) ||
         max_times[i] < group_mins[group_num].first)
       group_mins[group_num] = {max_times[i], i};

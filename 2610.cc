@@ -99,7 +99,7 @@ void Solve() {
     max_times[i] = BreadthFirstSearch(i);
 
   unordered_map<int, pair<int, int>> group_mins;
-  int group_count = union_find.GetGroupCount();
+  int group_count = union_find.GetGroupCount() - 1;
   for (int i = 1; i <= n; ++i) {
     int group_num = union_find.GetParent(i);
     if (!group_mins.contains(group_num) ||

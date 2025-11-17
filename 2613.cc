@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -35,7 +36,7 @@ bool CanCreateGroupWithMax(int group, int maximum) {
 }
 
 void Solve() {
-  int low = 1;
+  int low = *max_element(arr.begin(), arr.end());
   int high = 30'000;
   while (low < high) {
     int mid = (low + high) / 2;

@@ -62,15 +62,26 @@ void Solve() {
   }
   counts.push_back(count);
 
+  int zero_count = 0;
   counts.resize(m);
   for (int i = 0; i < m; ++i)
-    if (counts[i] == 0)
-      for (int j = 0; j < m; ++j)
-        if (counts[j] > 1) {
-          --counts[j];
-          ++counts[i];
-          break;
-        }
+    if (counts[i] == 0) {
+      counts[i] = 1;
+      ++zero_count;
+    }
+
+  for (int i = m - 1; i >= 0; --i)
+    if (counts[i] > 1) {
+      int diff = counts[i] - 1;
+
+      if (diff < zero_count) {
+        zero_count -= diff;
+        counts[i] = 1;
+      } else {
+        counts[i] -= zero_count;
+        break;
+      }
+    }
 
   for (int val : counts)
     cout << val << ' ';

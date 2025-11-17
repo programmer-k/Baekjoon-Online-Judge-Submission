@@ -47,6 +47,19 @@ void Solve() {
   }
 
   cout << low << '\n';
+
+  int total = 0;
+  int count = 0;
+  for (int val : arr) {
+    total += val;
+    if (total > low) {
+      total = val;
+      cout << count << ' ';
+      count = 0;
+    }
+    ++count;
+  }
+  cout << count << '\n';
 }
 
 int main() {

@@ -49,17 +49,31 @@ void Solve() {
   cout << low << '\n';
 
   int total = 0;
+  vector<int> counts;
   int count = 0;
   for (int val : arr) {
     total += val;
     if (total > low) {
       total = val;
-      cout << count << ' ';
+      counts.push_back(count);
       count = 0;
     }
     ++count;
   }
-  cout << count << '\n';
+
+  counts.resize(m);
+  for (int i = 0; i < m; ++i)
+    if (counts[i] == 0)
+      for (int j = 0; j < m; ++j)
+        if (counts[j] > 1) {
+          --counts[j];
+          ++counts[i];
+          break;
+        }
+
+  for (int val : counts)
+    cout << val << ' ';
+  cout << '\n';
 }
 
 int main() {

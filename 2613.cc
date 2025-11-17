@@ -60,6 +60,7 @@ void Solve() {
     }
     ++count;
   }
+  counts.push_back(count);
 
   counts.resize(m);
   for (int i = 0; i < m; ++i)

@@ -4,7 +4,6 @@
 #include <iostream>
 #include <limits>
 #include <queue>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 using namespace std;
@@ -12,10 +11,8 @@ using namespace std;
 const int64_t kInt64Max = numeric_limits<int64_t>::max();
 
 int n, m, k;
-vector<vector<pair<int, int>>> edges;
-unordered_set<int> interview_cities;
-vector<int64_t> min_dists;
-vector<int> in_degrees;
+vector<vector<pair<int, int>>> backward_edges;
+vector<int> interview_cities;
 
 void GetInput() {
   cin.tie(nullptr);
@@ -23,40 +20,29 @@ void GetInput() {
 
   cin >> n >> m >> k;
 
-  edges.resize(n + 1);
-  in_degrees.resize(n + 1);
+  backward_edges.resize(n + 1);
   for (int i = 0; i < m; ++i) {
     int u, v, c;
     cin >> u >> v >> c;
-    edges[u].push_back({v, c});
-    ++in_degrees[v];
+    backward_edges[v].push_back({u, c});
   }
 
-  for (int i = 0; i < k; ++i) {
-    int interview_city;
-    cin >> interview_city;
-    interview_cities.insert(interview_city);
-  }
+  interview_cities.resize(k);
+  for (int i = 0; i < k; ++i)
+    cin >> interview_cities[i];
 }
 
-void UpdatePath(int curr_node, int64_t init_dist,
-                const vector<pair<int, int>>& prevs) {
-  min_dists[curr_node] = init_dist;
-  while (curr_node != 0) {
-    int64_t next_dist = min_dists[curr_node] + prevs[curr_node].second;
-    curr_node = prevs[curr_node].first;
-    min_dists[curr_node] = next_dist;
-  }
-}
-
-void Dijkstra(int start) {
+void Dijkstra() {
   priority_queue<pair<int64_t, int>, vector<pair<int64_t, int>>,
                  greater<pair<int64_t, int>>>
       pq;
   vector<int64_t> dists(n + 1, kInt64Max);
   vector<pair<int, int>> prevs(n + 1);
-  pq.push({0, start});
-  dists[start] = 0;
+
+  for (int interview_city : interview_cities) {
+    pq.push({0, interview_city});
+    dists[interview_city] = 0;
+  }
 
   while (!pq.empty()) {
     pair<int64_t, int> p = pq.top();
@@ -67,12 +53,7 @@ void Dijkstra(int start) {
     if (dists[curr_node] < curr_dist)
       continue;
 
-    if (interview_cities.contains(curr_node))
-      return UpdatePath(curr_node, 0, prevs);
-    else if (min_dists[curr_node] != kInt64Max)
-      return UpdatePath(curr_node, min_dists[curr_node], prevs);
-
-    for (const pair<int, int>& next : edges[curr_node]) {
+    for (const pair<int, int>& next : backward_edges[curr_node]) {
       int next_node = next.first;
       int delta = next.second;
       int64_t next_dist = curr_dist + delta;
@@ -85,19 +66,15 @@ void Dijkstra(int start) {
       }
     }
   }
+
+  int64_t max_distance = *max_element(dists.begin() + 1, dists.end());
+  cout << find(dists.begin() + 1, dists.end(), max_distance) - dists.begin()
+       << '\n';
+  cout << max_distance << '\n';
 }
 
 void Solve() {
-  min_dists.resize(n + 1, kInt64Max);
-  for (int i = 1; i <= n; ++i)
-    if (min_dists[i] == kInt64Max)
-      Dijkstra(i);
-
-  int64_t max_distance = *max_element(min_dists.begin() + 1, min_dists.end());
-  cout << find(min_dists.begin() + 1, min_dists.end(), max_distance) -
-              min_dists.begin()
-       << '\n';
-  cout << max_distance << '\n';
+  Dijkstra();
 }
 
 int main() {

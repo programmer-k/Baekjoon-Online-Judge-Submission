@@ -15,6 +15,7 @@ int n, m, k;
 vector<vector<pair<int, int>>> edges;
 unordered_set<int> interview_cities;
 vector<int64_t> min_dists;
+vector<int> in_degrees;
 
 void GetInput() {
   cin.tie(nullptr);
@@ -23,10 +24,12 @@ void GetInput() {
   cin >> n >> m >> k;
 
   edges.resize(n + 1);
+  in_degrees.resize(n + 1);
   for (int i = 0; i < m; ++i) {
     int u, v, c;
     cin >> u >> v >> c;
     edges[u].push_back({v, c});
+    ++in_degrees[v];
   }
 
   for (int i = 0; i < k; ++i) {
@@ -36,8 +39,9 @@ void GetInput() {
   }
 }
 
-void UpdatePath(int curr_node, const vector<pair<int, int>>& prevs) {
-  min_dists[curr_node] = 0;
+void UpdatePath(int curr_node, int64_t init_dist,
+                const vector<pair<int, int>>& prevs) {
+  min_dists[curr_node] = init_dist;
   while (curr_node != 0) {
     int64_t next_dist = min_dists[curr_node] + prevs[curr_node].second;
     curr_node = prevs[curr_node].first;
@@ -64,7 +68,9 @@ void Dijkstra(int start) {
       continue;
 
     if (interview_cities.contains(curr_node))
-      return UpdatePath(curr_node, prevs);
+      return UpdatePath(curr_node, 0, prevs);
+    else if (min_dists[curr_node] != kInt64Max)
+      return UpdatePath(curr_node, min_dists[curr_node], prevs);
 
     for (const pair<int, int>& next : edges[curr_node]) {
       int next_node = next.first;

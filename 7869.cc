@@ -18,7 +18,7 @@ double Square(double val) {
 void Solve() {
   double d = sqrt(Square(x1 - x2) + Square(_y1 - y2));
   if (r1 + r2 <= d) {
-    cout << "0\n";
+    cout << fixed << setprecision(3) << static_cast<double>(0.0) << '\n';
   } else if (abs(r1 - r2) >= d) {
     cout << fixed << setprecision(3) << M_PI * Square(min(r1, r2)) << '\n';
   } else {

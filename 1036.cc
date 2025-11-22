@@ -86,8 +86,8 @@ void AddAll() {
     }
   }
 
-  for (int i = 51; i < ssize(total) - 1; ++i) {
-    total[i + 1] = total[i] / 36;
+  for (int i = 50; i < ssize(total) - 1; ++i) {
+    total[i + 1] += total[i] / 36;
     total[i] %= 36;
   }
 }

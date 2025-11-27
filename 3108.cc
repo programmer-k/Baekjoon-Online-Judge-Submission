@@ -21,12 +21,8 @@ struct Pos {
 
 int n, answer;
 vector<Rectangle> rectangles;
-vector<vector<vector<bool>>> coordinates(1'001,
-                                         vector<vector<bool>>(1'001,
-                                                              vector<bool>(4)));
-vector<vector<vector<bool>>> visited(1'001,
-                                     vector<vector<bool>>(1'001,
-                                                          vector<bool>(4)));
+bool coordinates[1'001][1'001][4];
+bool visited[1'001][1'001][4];
 
 void GetInput() {
   cin.tie(nullptr);

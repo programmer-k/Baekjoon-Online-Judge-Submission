@@ -1,26 +1,14 @@
 #include <algorithm>
 #include <iostream>
 #include <limits>
-#include <map>
-#include <tuple>
 #include <vector>
 using namespace std;
-
-struct Key {
-  int row;
-  int col;
-  int index;
-
-  bool operator<(const Key& rhs) const {
-    return tie(row, col, index) < tie(rhs.row, rhs.col, rhs.index);
-  }
-};
 
 const int kIntMax = numeric_limits<int>::max();
 
 int n, m;
 vector<int> names;
-map<Key, int> dp;
+vector<vector<int>> dp(1'000, vector<int>(1'000, -1));
 
 void GetInput() {
   cin.tie(nullptr);
@@ -37,8 +25,7 @@ int Square(int val) {
   return val * val;
 }
 
-int Calculate(int row, int col, int index) {
-  //cout << row << ", " << col << ", " << index << endl;
+int Calculate(int col, int index) {
   int cand1, cand2, cand3;
   cand1 = cand2 = cand3 = kIntMax;
 
@@ -46,8 +33,8 @@ int Calculate(int row, int col, int index) {
   if (index >= n - 1)
     return 0;
 
-  if (dp.contains({row, col, index}))
-    return dp[{row, col, index}];
+  if (dp[col][index] != -1)
+    return dp[col][index];
 
   // Check whether the current name can be written in the current row.
   if (col + names[index] <= m) {
@@ -56,13 +43,12 @@ int Calculate(int row, int col, int index) {
     // Check whether there is a space in the current row.
     if (next_col < m && next_col + names[index + 1] <= m) {
       // Write on the current row.
-      cand1 = Calculate(row, next_col, index + 1);
+      cand1 = Calculate(next_col, index + 1);
     } else {
       // Write on the next row.
       int char_count = next_col - 1;
       int curr_cost = Square(m - char_count);
-      int next_cost = Calculate(row + 1, 0, index + 1);
-      //cout << curr_cost << ", " << next_cost << endl;
+      int next_cost = Calculate(0, index + 1);
       cand2 = curr_cost + next_cost;
     }
   }
@@ -71,16 +57,15 @@ int Calculate(int row, int col, int index) {
   if (col > 0) {
     int char_count = col - 1;
     int curr_cost = Square(m - char_count);
-    int next_cost = Calculate(row + 1, names[index] + 1, index + 1);
+    int next_cost = Calculate(names[index] + 1, index + 1);
     cand3 = curr_cost + next_cost;
   }
 
-  //cout << row << ", " << col << ", " << index << ": " << cand1 << ", " << cand2 << ", " << cand3 << endl;
-  return dp[{row, col, index}] = min({cand1, cand2, cand3});
+  return dp[col][index] = min({cand1, cand2, cand3});
 }
 
 void Solve() {
-  cout << Calculate(0, 0, 0) << '\n';
+  cout << Calculate(0, 0) << '\n';
 }
 
 int main() {

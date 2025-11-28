@@ -8,7 +8,7 @@ const int kIntMax = numeric_limits<int>::max();
 
 int n, m;
 vector<int> names;
-vector<vector<int>> dp(1'000, vector<int>(1'000, -1));
+vector<vector<int>> dp(1'002, vector<int>(1'002, -1));
 
 void GetInput() {
   cin.tie(nullptr);

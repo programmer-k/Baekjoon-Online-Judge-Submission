@@ -38,11 +38,12 @@ int Square(int val) {
 }
 
 int Calculate(int row, int col, int index) {
+  //cout << row << ", " << col << ", " << index << endl;
   int cand1, cand2, cand3;
   cand1 = cand2 = cand3 = kIntMax;
 
   // If it reaches the end of index, nothing to add.
-  if (index >= n)
+  if (index >= n - 1)
     return 0;
 
   if (dp.contains({row, col, index}))
@@ -53,14 +54,15 @@ int Calculate(int row, int col, int index) {
     int next_col = col + names[index] + 1;
 
     // Check whether there is a space in the current row.
-    if (next_col < m) {
-      // Try on the current row.
+    if (next_col < m && next_col + names[index + 1] <= m) {
+      // Write on the current row.
       cand1 = Calculate(row, next_col, index + 1);
     } else {
-      // Try on the next row.
+      // Write on the next row.
       int char_count = next_col - 1;
       int curr_cost = Square(m - char_count);
       int next_cost = Calculate(row + 1, 0, index + 1);
+      //cout << curr_cost << ", " << next_cost << endl;
       cand2 = curr_cost + next_cost;
     }
   }
@@ -73,6 +75,7 @@ int Calculate(int row, int col, int index) {
     cand3 = curr_cost + next_cost;
   }
 
+  //cout << row << ", " << col << ", " << index << ": " << cand1 << ", " << cand2 << ", " << cand3 << endl;
   return dp[{row, col, index}] = min({cand1, cand2, cand3});
 }
 

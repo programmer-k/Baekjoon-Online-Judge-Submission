@@ -1,8 +1,5 @@
 #include <algorithm>
-#include <functional>
 #include <iostream>
-#include <queue>
-#include <set>
 #include <utility>
 #include <vector>
 using namespace std;
@@ -21,52 +18,37 @@ void GetInput() {
     cin >> coins[i].first >> coins[i].second;
 }
 
+int GetTotal() {
+  int total = 0;
+  for (const pair<int, int>& coin : coins)
+    total += coin.first * coin.second;
+  return total;
+}
+
 void Solve() {
   sort(coins.begin(), coins.end());
 
-  int total1 = 0, total2 = 0;
-  priority_queue<int, vector<int>, greater<int>> pq1, pq2;
-  for (const pair<int, int>& coin : coins) {
-    for (int i = 0; i < coin.second; ++i) {
-      if (total1 <= total2) {
-        pq1.push(coin.first);
-        total1 += coin.first;
-      } else {
-        pq2.push(coin.first);
-        total2 += coin.first;
+  int total = GetTotal();
+  if (total % 2 == 1) {
+    cout << "0\n";
+    return;
+  }
+
+  vector<vector<bool>> dp(n + 1, vector<bool>(total / 2 + 1));
+  dp[0][0] = true;
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j <= total / 2; ++j) {
+      if (dp[i][j]) {
+        for (int k = 0; k <= coins[i].second; ++k) {
+          if (j + coins[i].first * k <= total / 2) {
+            dp[i + 1][j + coins[i].first * k] = true;
+          }
+        }
       }
     }
   }
 
-  set<pair<int, int>> s;
-  while (total1 != total2) {
-    if (s.contains({total1, total2}))
-      break;
-    s.insert({total1, total2});
-
-    if (total1 < total2) {
-      int val = pq2.top();
-
-      pq1.push(val);
-      pq2.pop();
-
-      total1 += val;
-      total2 -= val;
-    } else {
-      int val = pq1.top();
-
-      pq2.push(val);
-      pq1.pop();
-
-      total2 += val;
-      total1 -= val;
-    }
-  }
-
-  if (total1 == total2)
-    cout << "1\n";
-  else
-    cout << "0\n";
+  cout << dp[n][total / 2] << '\n';
 }
 
 int main() {

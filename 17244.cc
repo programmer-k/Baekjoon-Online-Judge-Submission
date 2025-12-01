@@ -1,8 +1,8 @@
 #include <iostream>
-#include <vector>
+#include <limits>
 #include <queue>
 #include <utility>
-#include <limits>
+#include <vector>
 using namespace std;
 
 int n, m;
@@ -34,7 +34,8 @@ void Init(vector<pair<int, int>>& picks) {
   picks.push_back(end);
 }
 
-void BreadthFirstSearch(pair<int, int> start, vector<int>& dist, const vector<pair<int, int>>& picks) {
+void BreadthFirstSearch(pair<int, int> start, vector<int>& dist,
+                        const vector<pair<int, int>>& picks) {
   queue<pair<int, int>> q;
   vector<vector<int>> visited(m, vector<int>(n, -1));
   q.push(start);
@@ -46,15 +47,15 @@ void BreadthFirstSearch(pair<int, int> start, vector<int>& dist, const vector<pa
     int col = p.second;
     q.pop();
 
-    vector<int> move_rows = { 1, 0, -1, 0 };
-    vector<int> move_cols = { 0, 1, 0, -1 };
+    vector<int> move_rows = {1, 0, -1, 0};
+    vector<int> move_cols = {0, 1, 0, -1};
     for (int i = 0; i < 4; ++i) {
       int next_row = row + move_rows[i];
       int next_col = col + move_cols[i];
 
       if (next_row < 0 || next_col < 0 || next_row >= m || next_col >= n)
         continue;
-      
+
       if (house[next_row][next_col] == '#')
         continue;
 
@@ -70,18 +71,21 @@ void BreadthFirstSearch(pair<int, int> start, vector<int>& dist, const vector<pa
     dist[i] = visited[picks[i].first][picks[i].second];
 }
 
-int CalculateMinDistance(int count, int dist, vector<int>& selects, vector<bool>& visited, const vector<vector<int>>& dists) {
+int CalculateMinDistance(int count, int dist, vector<int>& selects,
+                         vector<bool>& visited,
+                         const vector<vector<int>>& dists) {
   if (count == ssize(visited) - 1) {
     return dist + dists[selects.back()][ssize(dists) - 1];
   }
-  
+
   int min_val = numeric_limits<int>::max();
   for (int i = 1; i < ssize(dists) - 1; ++i) {
     if (!visited[i]) {
       int next_dist = dist + dists[selects.back()][i];
       visited[i] = true;
       selects.push_back(i);
-      min_val = min(min_val, CalculateMinDistance(count + 1, next_dist, selects, visited, dists));
+      min_val = min(min_val, CalculateMinDistance(count + 1, next_dist, selects,
+                                                  visited, dists));
       visited[i] = false;
       selects.pop_back();
     }
@@ -97,13 +101,6 @@ void Solve() {
   vector<vector<int>> dists(ssize(picks), vector<int>(ssize(picks)));
   for (int i = 0; i < ssize(picks); ++i)
     BreadthFirstSearch(picks[i], dists[i], picks);
-
-  for (int i = 0; i < ssize(dists); ++i) {
-    for (int j = 0; j < ssize(dists[i]); ++j) {
-      cout << dists[i][j] << ' ';
-    }
-    cout << '\n';
-  }
 
   vector<bool> visited(ssize(dists));
   vector<int> selects;

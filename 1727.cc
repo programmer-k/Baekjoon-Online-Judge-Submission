@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <iostream>
-#include <vector>
 #include <limits>
+#include <vector>
 using namespace std;
 
 const int kIntMax = numeric_limits<int>::max();
@@ -27,15 +27,15 @@ void GetInput() {
 int Calculate(int male_index, int female_index, vector<vector<int>>& dp) {
   if (male_index >= ssize(male))
     return 0;
-  
+
   if (dp[male_index][female_index] != -1)
     return dp[male_index][female_index];
-  
+
   int min_val = kIntMax;
   for (int i = female_index; i < ssize(female); ++i) {
     int male_left = ssize(male) - male_index;
     int female_left = ssize(female) - i;
-    
+
     if (male_left > female_left)
       break;
 

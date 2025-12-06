@@ -50,9 +50,10 @@ pair<int, int> FindPos(char ch) {
 void InitIsNextToWaste() {
   for (int i = 1; i <= n; ++i)
     for (int j = 1; j <= m; ++j)
-      if (forests[i + 1][j] == 'g' || forests[i - 1][j] == 'g' ||
-          forests[i][j + 1] == 'g' || forests[i][j - 1] == 'g')
-        is_next_to_waste[i][j] = true;
+      if (forests[i][j] == '.')
+        if (forests[i + 1][j] == 'g' || forests[i - 1][j] == 'g' ||
+            forests[i][j + 1] == 'g' || forests[i][j - 1] == 'g')
+          is_next_to_waste[i][j] = true;
 }
 
 pair<int, int> Dijkstra(pair<int, int> start, pair<int, int> end) {
@@ -104,10 +105,6 @@ void Solve() {
   pair<int, int> start_pos = FindPos('S');
   pair<int, int> flower_pos = FindPos('F');
   pair<int, int> answer = Dijkstra(start_pos, flower_pos);
-
-  if (is_next_to_waste[flower_pos.first][flower_pos.second])
-    --answer.second;
-
   cout << answer.first << ' ' << answer.second << '\n';
 }
 

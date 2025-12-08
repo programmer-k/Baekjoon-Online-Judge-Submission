@@ -84,6 +84,10 @@ void Solve() {
     int64_t dist1 = mcdonalds_dists[i];
     int64_t dist2 = starbucks_dists[i];
 
+    // Skip the node if it is not a house.
+    if (dist1 == 0 || dist2 == 0)
+      continue;
+
     if (dist1 <= x && dist2 <= y)
       answer = min(answer, dist1 + dist2);
   }

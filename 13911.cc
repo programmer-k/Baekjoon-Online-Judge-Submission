@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-const int kInt64Max = numeric_limits<int64_t>::max();
+const int64_t kInt64Max = numeric_limits<int64_t>::max();
 
 int v, e, m, x, s, y;
 vector<vector<pair<int, int>>> edges;

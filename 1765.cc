@@ -4,8 +4,8 @@
 #include <vector>
 using namespace std;
 
-int n, m;
-vector<vector<pair<int, char>>> edges;
+int n, m, answer;
+vector<vector<int>> friend_edges, enemy_edges;
 
 void GetInput() {
   cin.tie(nullptr);
@@ -14,54 +14,66 @@ void GetInput() {
   cin >> n;
   cin >> m;
 
-  edges.resize(n + 1);
+  friend_edges.resize(n + 1);
+  enemy_edges.resize(n + 1);
+
   for (int i = 0; i < m; ++i) {
     char ch;
     int p, q;
     cin >> ch >> p >> q;
 
-    edges[p].push_back({q, ch});
-    edges[q].push_back({p, ch});
+    if (ch == 'F') {
+      friend_edges[p].push_back(q);
+      friend_edges[q].push_back(p);
+    } else {
+      enemy_edges[p].push_back(q);
+      enemy_edges[q].push_back(p);
+    }
   }
 }
 
-int BreadthFirstSearch(int start, vector<int>& visited) {
-  int count = 1;
+void BreadthFirstSearch(int start, vector<bool>& visited) {
   queue<int> q;
   q.push(start);
-  visited[start] = 0;
+  visited[start] = true;
 
   while (!q.empty()) {
     int node = q.front();
     q.pop();
 
-    if (visited[node] == 1)
-      count = 2;
-
-    for (const pair<int, char>& next : edges[node]) {
-      int next_node = next.first;
-      char relationship = next.second;
-
-      if (visited[next_node] == -1) {
+    for (int next_node : friend_edges[node]) {
+      if (!visited[next_node]) {
         q.push(next_node);
-        visited[next_node] =
-            relationship == 'F' ? visited[node] : visited[node] + 1;
+        visited[next_node] = true;
       }
     }
   }
 
-  return count;
+  ++answer;
+}
+
+void CalculateFriendEdgesFromEnemyEdges() {
+  for (int i = 1; i <= n; ++i) {
+    for (int j = 0; j < ssize(enemy_edges[i]); ++j) {
+      for (int k = j + 1; k < ssize(enemy_edges[i]); ++k) {
+        int node1 = enemy_edges[i][j];
+        int node2 = enemy_edges[i][k];
+        friend_edges[node1].push_back(node2);
+        friend_edges[node2].push_back(node1);
+      }
+    }
+  }
 }
 
 void Solve() {
-  int total = 0;
-  vector<int> visited(n + 1, -1);
+  CalculateFriendEdgesFromEnemyEdges();
 
+  vector<bool> visited(n + 1);
   for (int i = 1; i <= n; ++i)
-    if (visited[i] == -1)
-      total += BreadthFirstSearch(i, visited);
+    if (!visited[i])
+      BreadthFirstSearch(i, visited);
 
-  cout << total << '\n';
+  cout << answer << '\n';
 }
 
 int main() {

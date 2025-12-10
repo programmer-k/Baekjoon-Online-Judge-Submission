@@ -40,7 +40,6 @@ Matrix Power(Matrix mat, int64_t exponent) {
 
 void Solve() {
   Matrix mat{1, 1, 1, 0};
-  cout << mat.a << ' ' << mat.b << ' ' << mat.c << ' ' << mat.d << '\n';
   Matrix result = Power(mat, n % 2 == 0 ? n + 1 : n);
   cout << result.c - 1 << '\n';
 }

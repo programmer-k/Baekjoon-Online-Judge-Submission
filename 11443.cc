@@ -6,10 +6,10 @@ const int kMod = 1'000'000'007;
 int64_t n;
 
 struct Matrix {
-  int a;
-  int b;
-  int c;
-  int d;
+  int64_t a;
+  int64_t b;
+  int64_t c;
+  int64_t d;
 };
 
 Matrix operator*(const Matrix& mat1, const Matrix& mat2) {

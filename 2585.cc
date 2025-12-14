@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <limits>
@@ -14,8 +13,8 @@ struct Data {
   int node;
 
   bool operator<(const Data& rhs) const {
-    return tie(stop_over, max_fuel, node) <
-           tie(rhs.stop_over, rhs.max_fuel, rhs.node);
+    return tie(max_fuel, stop_over, node) <
+           tie(rhs.max_fuel, rhs.stop_over, rhs.node);
   }
 
   bool operator>(const Data& rhs) const {
@@ -74,6 +73,9 @@ int Dijkstra(const vector<vector<pair<int, int>>>& edges) {
     if (max_fuel > dists[curr_node][stop_over])
       continue;
 
+    if (curr_node == n + 1)
+      return max_fuel;
+
     if (stop_over == k + 1)
       continue;
 
@@ -89,7 +91,7 @@ int Dijkstra(const vector<vector<pair<int, int>>>& edges) {
     }
   }
 
-  return *min_element(dists[n + 1].begin(), dists[n + 1].end());
+  return -1;
 }
 
 void Solve() {

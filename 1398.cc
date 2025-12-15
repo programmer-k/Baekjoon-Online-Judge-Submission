@@ -1,12 +1,11 @@
-#include <algorithm>
 #include <cstdint>
-#include <functional>
 #include <iostream>
 #include <vector>
 using namespace std;
 
 int t;
 vector<int64_t> arr;
+vector<int> dp(100);
 
 void GetInput() {
   cin.tie(nullptr);
@@ -19,33 +18,27 @@ void GetInput() {
 }
 
 int CalculateMinCoinCount(int64_t val) {
-  const int64_t kMaxLimit = 1'000'000'000'000'000LL;
-  vector<int64_t> coins;
-
-  // Generate coins: 10^k for k >= 0
-  for (int64_t coin = 1; coin <= kMaxLimit; coin *= 10)
-    coins.push_back(coin);
-
-  // Generate coins: 25*100^k for k >= 0
-  for (int64_t coin = 25; coin <= kMaxLimit; coin *= 100)
-    coins.push_back(coin);
-
-  // Sort in descending order
-  sort(coins.begin(), coins.end(), greater<int64_t>());
-
   int coin_count = 0;
-  for (int64_t coin : coins) {
-    if (coin <= val) {
-      int64_t quotient = val / coin;
-      coin_count += quotient;
-      val %= coin;
-    }
+
+  while (val > 0) {
+    coin_count += dp[val % 100];
+    val /= 100;
   }
 
   return coin_count;
 }
 
 void Solve() {
+  for (int i = 1; i < 100; ++i) {
+    dp[i] = dp[i] - 1;
+
+    if (i >= 10)
+      dp[i] = min(dp[i], dp[i - 10] + 1);
+
+    if (i >= 25)
+      dp[i] = min(dp[i], dp[i - 25] + 1);
+  }
+
   for (int64_t val : arr)
     cout << CalculateMinCoinCount(val) << '\n';
 }

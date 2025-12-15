@@ -30,7 +30,7 @@ int CalculateMinCoinCount(int64_t val) {
 
 void Solve() {
   for (int i = 1; i < 100; ++i) {
-    dp[i] = dp[i] - 1;
+    dp[i] = dp[i - 1] + 1;
 
     if (i >= 10)
       dp[i] = min(dp[i], dp[i - 10] + 1);

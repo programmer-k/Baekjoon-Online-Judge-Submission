@@ -28,8 +28,8 @@ void GetInput() {
     cin >> operations[i].a >> operations[i].b >> operations[i].c;
 }
 
-int GetSum(int i) {
-  int ret = 0;
+int64_t GetSum(int i) {
+  int64_t ret = 0;
   while (i > 0) {
     ret += binary_indexed_tree[i];
     i -= i & -i;

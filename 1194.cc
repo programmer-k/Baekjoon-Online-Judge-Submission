@@ -1,7 +1,7 @@
 #include <cstring>
 #include <iostream>
-#include <utility>
 #include <queue>
+#include <utility>
 using namespace std;
 
 struct Pos {
@@ -63,10 +63,13 @@ int BreadthFirstSearch(pair<int, int> start) {
       if (next_val == '#')
         continue;
 
-      if (next_val >= 'A' && next_val <= 'F' && ((1 << (next_val - 'A')) & state) == 0)
+      if (next_val >= 'A' && next_val <= 'F' &&
+          ((1 << (next_val - 'A')) & state) == 0)
         continue;
 
-      int next_state = next_val >= 'a' && next_val <= 'f' ? state | (1 << (next_val - 'a')) : state;
+      int next_state = next_val >= 'a' && next_val <= 'f'
+                           ? state | (1 << (next_val - 'a'))
+                           : state;
       if (visited[next_row][next_col][next_state] != -1)
         continue;
 

@@ -38,7 +38,7 @@ void Solve() {
     if (right_map.contains(s - p.first))
       answer += static_cast<int64_t>(p.second) * right_map[s - p.first];
 
-  cout << answer - 1 << '\n';
+  cout << (s == 0 ? answer - 1 : answer) << '\n';
 }
 
 int main() {

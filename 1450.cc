@@ -19,7 +19,7 @@ void GetInput() {
     cin >> arr[i];
 }
 
-void CountAllCases(int index, int end, int64_t total, map<int, int64_t>& m) {
+void CountAllCases(int index, int end, int64_t total, map<int64_t, int>& m) {
   if (index > end) {
     ++m[total];
     return;
@@ -31,27 +31,26 @@ void CountAllCases(int index, int end, int64_t total, map<int, int64_t>& m) {
 
 void Solve() {
   int mid = n / 2;
-  map<int, int64_t> m1, m2;
+  map<int64_t, int> m1, m2;
   CountAllCases(0, mid, 0, m1);
   CountAllCases(mid + 1, n - 1, 0, m2);
 
-  vector<pair<int, int64_t>> v1(m1.begin(), m1.end());
-  vector<pair<int, int64_t>> v2(m2.begin(), m2.end());
-  vector<int64_t> v2_prefix_sum(ssize(v2));
+  vector<pair<int64_t, int>> v1(m1.begin(), m1.end());
+  vector<pair<int64_t, int>> v2(m2.begin(), m2.end());
+  vector<int> v2_prefix_sum(ssize(v2));
 
   v2_prefix_sum[0] = v2[0].second;
   for (int i = 1; i < ssize(v2); ++i)
     v2_prefix_sum[i] = v2_prefix_sum[i - 1] + v2[i].second;
 
   int answer = 0;
-  for (const pair<int, int64_t>& p : v1) {
-    int sum1 = p.first;
-    int64_t count1 = p.second;
-    int sum2 = c - sum1;
+  for (const pair<int64_t, int>& p : v1) {
+    int64_t sum1 = p.first;
+    int count1 = p.second;
+    int64_t sum2 = c - sum1;
 
-    int index = upper_bound(v2.begin(), v2.end(),
-                            make_pair(sum2 + 1, static_cast<int64_t>(0))) -
-                v2.begin();
+    int index =
+        upper_bound(v2.begin(), v2.end(), make_pair(sum2 + 1, 0)) - v2.begin();
 
     if (index > 0)
       answer += count1 * v2_prefix_sum[index - 1];

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <tuple>
@@ -19,6 +20,7 @@ int n;
 int nodes[10'001];
 vector<int> edges[10'001];
 map<Key, int> dp;
+map<Key, bool> trace;
 
 void GetInput() {
   cin.tie(nullptr);
@@ -39,10 +41,12 @@ void GetInput() {
 
 int CalcMaxIndependentSet(int node, int parent, bool is_parent_selected) {
   if (ssize(edges[node]) == 1 && edges[node][0] == parent) {
-    if (is_parent_selected)
+    if (is_parent_selected) {
       return 0;
-    else
+    } else {
+      trace[{node, parent, is_parent_selected}] = true;
       return nodes[node];
+    }
   }
 
   if (dp.contains({node, parent, is_parent_selected}))
@@ -58,6 +62,7 @@ int CalcMaxIndependentSet(int node, int parent, bool is_parent_selected) {
       total += CalcMaxIndependentSet(next_node, node, false);
     }
 
+    trace[{node, parent, is_parent_selected}] = false;
     return dp[{node, parent, is_parent_selected}] = total;
   }
 
@@ -74,11 +79,41 @@ int CalcMaxIndependentSet(int node, int parent, bool is_parent_selected) {
     total2 += val2;
   }
 
-  return dp[{node, parent, is_parent_selected}] = max(total1, total2);
+  if (total1 >= total2) {
+    trace[{node, parent, is_parent_selected}] = true;
+    return dp[{node, parent, is_parent_selected}] = total1;
+  } else {
+    trace[{node, parent, is_parent_selected}] = false;
+    return dp[{node, parent, is_parent_selected}] = total2;
+  }
+}
+
+void FindPath(int node, int parent, bool is_parent_selected,
+              vector<int>& result) {
+  bool selected = trace[{node, parent, is_parent_selected}];
+
+  if (selected) {
+    result.push_back(node);
+  }
+
+  for (int next_node : edges[node]) {
+    if (next_node == parent)
+      continue;
+
+    FindPath(next_node, node, selected, result);
+  }
 }
 
 void Solve() {
   cout << CalcMaxIndependentSet(1, -1, false) << '\n';
+
+  vector<int> result;
+  FindPath(1, -1, false, result);
+  sort(result.begin(), result.end());
+
+  for (int val : result)
+    cout << val << ' ';
+  cout << '\n';
 }
 
 int main() {

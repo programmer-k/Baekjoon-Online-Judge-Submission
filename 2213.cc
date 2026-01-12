@@ -80,10 +80,10 @@ int CalcMaxIndependentSet(int node, int parent, bool is_parent_selected) {
   }
 
   if (total1 >= total2) {
-    trace[{node, parent, is_parent_selected}] = true;
+    trace[{node, parent, is_parent_selected}] = false;
     return dp[{node, parent, is_parent_selected}] = total1;
   } else {
-    trace[{node, parent, is_parent_selected}] = false;
+    trace[{node, parent, is_parent_selected}] = true;
     return dp[{node, parent, is_parent_selected}] = total2;
   }
 }

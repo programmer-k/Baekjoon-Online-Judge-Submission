@@ -23,8 +23,8 @@ void GetInput() {
 }
 
 void Solve() {
-  for (int i = 1; i <= m; ++i)
-    for (int j = 1; j < 19; ++j)
+  for (int j = 1; j < 19; ++j)
+    for (int i = 1; i <= m; ++i)
       dp[i][j] = dp[dp[i][j - 1]][j - 1];
 
   for (int i = 0; i < q; ++i) {

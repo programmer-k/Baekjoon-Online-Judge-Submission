@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <iostream>
 using namespace std;
 
@@ -9,7 +10,7 @@ struct Query {
 
 int n, q;
 Query queries[100'000];
-int segment_tree[4'000'000];
+int64_t segment_tree[4'000'000];
 
 void GetInput() {
   cin.tie(nullptr);
@@ -33,12 +34,12 @@ void Update(int index, int start, int end, int i, int add) {
   else
     Update(index * 2 + 1, mid + 1, end, i, add);
 
-  int left = segment_tree[index * 2];
-  int right = segment_tree[index * 2 + 1];
+  int64_t left = segment_tree[index * 2];
+  int64_t right = segment_tree[index * 2 + 1];
   segment_tree[index] = left + right;
 }
 
-int GetSum(int index, int start, int end, int query_from, int query_to) {
+int64_t GetSum(int index, int start, int end, int query_from, int query_to) {
   if (query_to < start || end < query_from)
     return 0;
 
@@ -46,8 +47,8 @@ int GetSum(int index, int start, int end, int query_from, int query_to) {
     return segment_tree[index];
 
   int mid = (start + end) / 2;
-  int left = GetSum(index * 2, start, mid, query_from, query_to);
-  int right = GetSum(index * 2 + 1, mid + 1, end, query_from, query_to);
+  int64_t left = GetSum(index * 2, start, mid, query_from, query_to);
+  int64_t right = GetSum(index * 2 + 1, mid + 1, end, query_from, query_to);
 
   return left + right;
 }
